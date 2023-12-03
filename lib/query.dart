@@ -20,6 +20,96 @@ class _QueryPageState extends State<QueryPage> {
   List<String> queriedData = [];
   DateTime? selectedDate;
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Query Time'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(Constants.spacingAndHeight),
+        child: Column(
+          children: [
+            const Text('Query by: '),
+            DropdownButton(
+              value: dropdownValue,
+              items: const [
+                DropdownMenuItem(
+                  value: 'today',
+                  child: Text('Today'),
+                ),
+                DropdownMenuItem(
+                  value: 'date',
+                  child: Text('Date'),
+                ),
+                DropdownMenuItem(
+                  value: 'task',
+                  child: Text('Task'),
+                ),
+                DropdownMenuItem(
+                  value: 'tag',
+                  child: Text('Tag'),
+                ),
+              ],
+              onChanged: (String? value) {
+                setState(() {
+                  dropdownValue = value;
+                  if (value == 'task' || value == 'tag') {
+                    queryController.clear();
+                  }
+                });
+              },
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: queryController,
+                    decoration: const InputDecoration(
+                      labelText: 'Input',
+                    ),
+                    enabled: dropdownValue != 'today',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: Constants.spacingAndHeight),
+            ElevatedButton(
+              onPressed: () {
+                _queryInformation();
+              },
+              child: const Text('Query'),
+            ),
+            const SizedBox(height: Constants.spacingAndHeight),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Constants.blackColor),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: const EdgeInsets.all(Constants.spacingAndHeight),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Queried Data: '),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: queriedData.map((data) => Text(data)).toList(),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _performQuery(String query) async {
     try {
       QuerySnapshot querySnapshot;
@@ -129,96 +219,5 @@ class _QueryPageState extends State<QueryPage> {
         queriedData.add('Invalid input');
       });
     }
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Query Time'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(Constants.spacingAndHeight),
-        child: Column(
-          children: [
-            const Text('Query by: '),
-            DropdownButton(
-              value: dropdownValue,
-              items: const [
-                DropdownMenuItem(
-                  value: 'today',
-                  child: Text('Today'),
-                ),
-                DropdownMenuItem(
-                  value: 'date',
-                  child: Text('Date'),
-                ),
-                DropdownMenuItem(
-                  value: 'task',
-                  child: Text('Task'),
-                ),
-                DropdownMenuItem(
-                  value: 'tag',
-                  child: Text('Tag'),
-                ),
-              ],
-              onChanged: (String? value) {
-                setState(() {
-                  dropdownValue = value;
-                  if (value == 'task' || value == 'tag') {
-                    queryController.clear();
-                  }
-                });
-              },
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: queryController,
-                    decoration: const InputDecoration(
-                      labelText: 'Input',
-                    ),
-                    enabled: dropdownValue != 'today',
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: Constants.spacingAndHeight),
-            ElevatedButton(
-              onPressed: () {
-                _queryInformation();
-              },
-              child: const Text('Query'),
-            ),
-            const SizedBox(height: Constants.spacingAndHeight),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Constants.blackColor),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                padding: const EdgeInsets.all(Constants.spacingAndHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Queried Data: '),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: queriedData.map((data) => Text(data)).toList(),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

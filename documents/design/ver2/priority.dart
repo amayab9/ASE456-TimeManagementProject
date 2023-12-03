@@ -16,46 +16,6 @@ class PriorityPage extends StatefulWidget {
 class _PriorityState extends State<PriorityPage> {
   List<Map<String, dynamic>> queriedData = [];
 
-  Future<void> _reportData() async {
-    try {
-      QuerySnapshot querySnapshot;
-      Map<String, int> taskCountMap = {};
-
-      querySnapshot = await FirebaseFirestore.instance.collection(Constants.timeRecords).get();
-
-      //retrieve data for each doc
-      for (var doc in querySnapshot.docs) {
-        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
-
-        if (data != null) {
-          String task = data['task'];
-          taskCountMap[task] = (taskCountMap[task] ?? 0) + 1;
-        }
-      }
-
-      // sort tasks
-      List<MapEntry<String, int>> sortedTaskList = taskCountMap.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
-
-      // task and count
-      setState(() {
-        queriedData.clear();
-        for (var entry in sortedTaskList) {
-          String task = entry.key;
-          int count = entry.value;
-
-          // add task and count as a map to queriedData
-          queriedData.add({'task': task, 'count': count, 'formattedTimestamp': DateTimeUtils.formatTimestamp(DateTime.now())});
-        }
-      });
-
-    } catch (error) {
-      setState(() {
-        queriedData.add({'error': 'Error: $error'});
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,4 +87,44 @@ class _PriorityState extends State<PriorityPage> {
       ),
     );
   }
+
+  Future<void> _reportData() async {
+    try {
+      QuerySnapshot querySnapshot;
+      Map<String, int> taskCountMap = {};
+
+      querySnapshot = await FirebaseFirestore.instance.collection(Constants.timeRecords).get();
+
+      //retrieve data for each doc
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          String task = data['task'];
+          taskCountMap[task] = (taskCountMap[task] ?? 0) + 1;
+        }
+      }
+
+      // sort tasks
+      List<MapEntry<String, int>> sortedTaskList = taskCountMap.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+
+      setState(() {
+        queriedData.clear();
+        for (var entry in sortedTaskList) {
+          String task = entry.key;
+          int count = entry.value;
+
+          // add task and count as a map to queriedData
+          queriedData.add({'task': task, 'count': count, 'formattedTimestamp': DateTimeUtils.formatTimestamp(DateTime.now())});
+        }
+      });
+
+    } catch (error) {
+      setState(() {
+        queriedData.add({'error': 'Error: $error'});
+      });
+    }
+  }
+
 }
