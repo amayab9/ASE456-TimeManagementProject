@@ -2,7 +2,30 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:individualprojectfinal/utils/date_time_utils.dart';
+import 'package:individualprojectfinal/utils/constants.dart';
 
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:individualprojectfinal/utils/date_time_utils.dart';
+import 'package:individualprojectfinal/utils/constants.dart';
+
+abstract class ReportCommand {
+  void execute();
+}
+
+class ReportDataCommand implements ReportCommand {
+  final _ReportState state;
+
+  ReportDataCommand(this.state);
+
+  @override
+  void execute() {
+    state._reportData(state.startDateController.text, state.endDateController.text);
+  }
+}
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -15,7 +38,70 @@ class _ReportState extends State<ReportPage> {
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   List<String> queriedData = [];
+  ReportCommand? _command;
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Report Time'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(Constants.spacingAndHeight),
+        child: Column(
+          children: [
+            TextFormField(
+              controller: startDateController,
+              decoration: const InputDecoration(
+                labelText: 'Start Date (YYYY-MM-DD)',
+              ),
+            ),
+            const SizedBox(height: Constants.spacingAndHeight),
+            TextFormField(
+              controller: endDateController,
+              decoration: const InputDecoration(
+                labelText: 'End Date (YYYY-MM-DD)',
+              ),
+            ),
+            const SizedBox(height: Constants.spacingAndHeight),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _command = ReportDataCommand(this);
+                  _executeCommand();
+                });
+              },
+              child: const Text('Query Data'),
+            ),
+            const SizedBox(height: Constants.spacingAndHeight),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Constants.blackColor),
+                  borderRadius: BorderRadius.circular(Constants.edgeInset),
+                ),
+                padding: const EdgeInsets.all(Constants.spacingAndHeight),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Queried Data: '),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: queriedData.map((data) => Text(data)).toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Future<void> _reportData(String startDate, String endDate) async {
     try {
@@ -31,7 +117,6 @@ class _ReportState extends State<ReportPage> {
         return;
       }
 
-      DateTime queryDate = DateTime.parse(startDate);
       querySnapshot = await FirebaseFirestore.instance
           .collection('time_records')
           .where('date', isGreaterThanOrEqualTo: DateTime.parse(startDate), isLessThanOrEqualTo: DateTime.parse(endDate))
@@ -62,81 +147,20 @@ class _ReportState extends State<ReportPage> {
   }
 
   bool _isValidDateFormat(String date) {
-    RegExp dateRegExp = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-    return dateRegExp.hasMatch(date);
+    return DateTimeUtils.isValidDateFormat(date);
   }
 
   String _formatTimestamp(Timestamp timestamp) {
-    DateTime date = timestamp.toDate();
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    return DateTimeUtils.formatTimestamp(timestamp.toDate());
   }
 
   String _formatTime(Timestamp timestamp) {
-    DateTime time = timestamp.toDate();
-    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+    return DateTimeUtils.formatTime(timestamp);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Report Time'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: startDateController,
-              decoration: const InputDecoration(
-                labelText: 'Start Date (YYYY-MM-DD)',
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
-              controller: endDateController,
-              decoration: const InputDecoration(
-                labelText: 'End Date (YYYY-MM-DD)',
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                _reportData(startDateController.text, endDateController.text);
-              },
-              child: const Text('Query Data'), // Changed the button text
-            ),
-            const SizedBox(height: 16.0), // Added a comma here
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Queried Data: '),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: queriedData.map((data) => Text(data)).toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  void _executeCommand() {
+    if (_command != null) {
+      _command!.execute();
+    }
   }
-
-
-
 }
-

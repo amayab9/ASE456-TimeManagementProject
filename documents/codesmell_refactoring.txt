@@ -1,0 +1,13 @@
+ Code Smell: duplicate code (_formatTime & _formatTimestamp) -
+    Refactoring: constants
+ Code Smell: Magic Strings (_isValidDateFormat) -
+    Refactoring: constants
+ Code Smell: Unused imports -
+   Refactoring: remove unused imports
+ Code Smell: Large methods
+   Refactoring: break up/ use SRP
+ Code Smell: Magic numbers (sized box height 16) -
+   Refactoring: constants
+ Code Smell: "Magic colors"/hardcoded colors -
+   Refactoring: constants
+ Code Smell: unused code

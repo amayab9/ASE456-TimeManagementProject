@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:individualprojectfinal/utils/date_time_utils.dart';
-import 'package:individualprojectfinal/utils/constants.dart';
 
 
 class PriorityPage extends StatefulWidget {
@@ -21,7 +19,7 @@ class _PriorityState extends State<PriorityPage> {
       QuerySnapshot querySnapshot;
       Map<String, int> taskCountMap = {};
 
-      querySnapshot = await FirebaseFirestore.instance.collection(Constants.timeRecords).get();
+      querySnapshot = await FirebaseFirestore.instance.collection('time_records').get();
 
       //retrieve data for each doc
       for (var doc in querySnapshot.docs) {
@@ -45,7 +43,7 @@ class _PriorityState extends State<PriorityPage> {
           int count = entry.value;
 
           // add task and count as a map to queriedData
-          queriedData.add({'task': task, 'count': count, 'formattedTimestamp': DateTimeUtils.formatTimestamp(DateTime.now())});
+          queriedData.add({'task': task, 'count': count});
         }
       });
 
@@ -65,7 +63,7 @@ class _PriorityState extends State<PriorityPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(Constants.spacingAndHeight),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -75,19 +73,19 @@ class _PriorityState extends State<PriorityPage> {
                 },
                 child: const Text('Generate Priority Report'),
               ),
-              const SizedBox(height: Constants.spacingAndHeight),
+              const SizedBox(height: 16.0),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Constants.blackColor),
-                    borderRadius: BorderRadius.circular(Constants.edgeInset),
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: const EdgeInsets.all(Constants.spacingAndHeight),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Priority Report: '),
-                      const SizedBox(height: Constants.edgeInset),
+                      const SizedBox(height: 8.0),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

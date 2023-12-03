@@ -1,0 +1,12 @@
+Design Pattern: Singleton
+When/Where: Firebase.initializeApp in main
+How: initialized once for entire project
+
+Design Pattern: Strategy
+When/Where: _isValidDateFormat, _formatTimeStamp, and _formatTime (dateTimeUnits)
+How: Algorithms related to date and time and can be easily edited/extended.
+
+Design Pattern: Command
+When/Where: report page- reportCommand
+How: ReportDataCommand class encapsulates reportData, and command variable. Query Data is linked to
+executeCommand that user presses to report the data.

@@ -2,10 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:individualprojectfinal/utils/date_time_utils.dart';
-import 'package:individualprojectfinal/utils/constants.dart';
 
-const double spacingAndHeight = 16;
 
 class QueryPage extends StatefulWidget {
   const QueryPage({Key? key}) : super(key: key);
@@ -33,11 +30,9 @@ class _QueryPageState extends State<QueryPage> {
           return;
         }
         DateTime queryDate = DateTime.parse(query);
-        DateTime startOfDay = DateTime(queryDate.year, queryDate.month, queryDate.day);
-        DateTime endOfDay = DateTime(queryDate.year, queryDate.month, queryDate.day, 23, 59, 59, 999);
         querySnapshot = await FirebaseFirestore.instance
             .collection('time_records')
-            .where('date', isGreaterThanOrEqualTo: startOfDay, isLessThanOrEqualTo: endOfDay)
+            .where('date', isEqualTo: queryDate)
             .get();
       } else if (dropdownValue == 'date') {
         if (!_isValidDateFormat(query)) {
@@ -59,10 +54,12 @@ class _QueryPageState extends State<QueryPage> {
             .where('task', isGreaterThanOrEqualTo: query.toLowerCase(), isLessThan: '${query.toLowerCase()}z')
             .get();
       } else if (dropdownValue == 'tag') {
+        // Query by task
+
         queriedData.clear();
         querySnapshot = await FirebaseFirestore.instance
             .collection('time_records')
-            .where('tag', isEqualTo: query.toLowerCase())
+            .where('tag', isGreaterThanOrEqualTo: query.toLowerCase(), isLessThan: '${query.toLowerCase()}z')
             .get();
       } else {
         setState(() {
@@ -96,15 +93,18 @@ class _QueryPageState extends State<QueryPage> {
   }
 
   bool _isValidDateFormat(String date) {
-    return DateTimeUtils.isValidDateFormat(date);
+    RegExp dateRegExp = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    return dateRegExp.hasMatch(date);
   }
 
   String _formatTimestamp(Timestamp timestamp) {
-    return DateTimeUtils.formatTimestamp(timestamp.toDate());
+    DateTime date = timestamp.toDate();
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
   String _formatTime(Timestamp timestamp) {
-    return DateTimeUtils.formatTime(timestamp);
+    DateTime time = timestamp.toDate();
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   void _queryInformation() {
@@ -140,7 +140,7 @@ class _QueryPageState extends State<QueryPage> {
         title: const Text('Query Time'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(Constants.spacingAndHeight),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             const Text('Query by: '),
@@ -186,21 +186,21 @@ class _QueryPageState extends State<QueryPage> {
                 ),
               ],
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 _queryInformation();
               },
               child: const Text('Query'),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16.0),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Constants.blackColor),
+                  border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                padding: const EdgeInsets.all(Constants.spacingAndHeight),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

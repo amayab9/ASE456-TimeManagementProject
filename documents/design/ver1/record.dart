@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:individualprojectfinal/utils/constants.dart';
+
 
 class RecordTimePage extends StatefulWidget {
   const RecordTimePage({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
         title: const Text('Record Time'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(Constants.spacingAndHeight),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextFormField(
@@ -33,35 +33,35 @@ class _RecordTimePageState extends State<RecordTimePage> {
                 labelText: 'Date (YYYY-MM-DD)',
               ),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             TextFormField(
               controller: fromTimeController,
               decoration: const InputDecoration(
                 labelText: 'From-Time (HH:MM AM/PM)',
               ),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             TextFormField(
               controller: toTimeController,
               decoration: const InputDecoration(
                 labelText: 'To-Time (HH:MM AM/PM)',
               ),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             TextFormField(
               controller: taskController,
               decoration: const InputDecoration(
                 labelText: 'Task',
               ),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             TextFormField(
               controller: tagController,
               decoration: const InputDecoration(
                 labelText: 'Tag',
               ),
             ),
-            const SizedBox(height: Constants.spacingAndHeight),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 _saveTimeRecord(
@@ -81,7 +81,6 @@ class _RecordTimePageState extends State<RecordTimePage> {
   }
 
   void _saveTimeRecord(String date, String fromTime, String toTime, String task, String tag) {
-
     DateTime parsedDate = _parseDate(date);
     TimeOfDay parsedFromTime = _parseTime(fromTime);
     TimeOfDay parsedToTime = _parseTime(toTime);
@@ -121,7 +120,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
         const SnackBar(
           content: Text('Record submitted successfully.'),
           duration: Duration(seconds: 2),
-          backgroundColor: Constants.greenColor,
+          backgroundColor: Colors.green,
         ),
       );
 
@@ -130,7 +129,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
         const SnackBar(
           content: Text('Failed to submit record'),
           duration: Duration(seconds: 2),
-          backgroundColor: Constants.redColor,
+          backgroundColor: Colors.red,
         ),
       );
     });

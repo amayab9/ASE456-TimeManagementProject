@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:individualprojectfinal/firebase_options.dart';
 import 'record.dart';
 import 'query.dart';
+import 'report.dart';
+import 'priority.dart';
 
 Future<void> main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +63,26 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: const Text('Query Time'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReportPage()),
+                );
+              },
+              child: const Text('Report Time'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PriorityPage()),
+                );
+              },
+              child: const Text('Priority'),
             ),
           ],
         ),
