@@ -5,6 +5,7 @@ import 'record.dart';
 import 'query.dart';
 import 'report.dart';
 import 'priority.dart';
+import 'package:code_uml/code_uml.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(

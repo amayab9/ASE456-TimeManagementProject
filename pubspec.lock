@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.0"
+  code_uml:
+    dependency: "direct main"
+    description:
+      name: code_uml
+      sha256: "69a53e5c5570834374d3b35ba8fe8f183865fce18781c8c712c811f18d6691b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   collection:
     dependency: transitive
     description:
@@ -408,6 +416,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  pumli:
+    dependency: "direct main"
+    description:
+      name: pumli
+      sha256: "804f0c0a719a70cd45e7e28fb8c046ea7617820e9d120cbaedf0c935bdb29f6b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   shelf:
     dependency: transitive
     description:
