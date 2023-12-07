@@ -60,19 +60,7 @@ class _PriorityState extends State<PriorityPage> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: queriedData.map((data) {
-                              if (data.containsKey('error')) {
-                                return Text(data['error']);
-                              } else {
-                                String task = data['task'];
-                                task = task.length > 50 ? '${task.substring(0, 50)}...' : task;
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(task),
-                                    Text(data['count'].toString()),
-                                  ],
-                                );
-                              }
+                              return returnTaskAndOccurrence(data);
                             }).toList(),
                           ),
                         ),
@@ -86,6 +74,22 @@ class _PriorityState extends State<PriorityPage> {
         ),
       ),
     );
+  }
+
+  Widget returnTaskAndOccurrence(Map<String, dynamic> data) {
+    if (data.containsKey('error')) {
+      return Text(data['error']);
+    } else {
+      String task = data['task'];
+      task = task.length > 50 ? '${task.substring(0, 50)}...' : task;
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(task),
+          Text(data['count'].toString()),
+        ],
+      );
+    }
   }
 
   Future<void> _reportData() async {

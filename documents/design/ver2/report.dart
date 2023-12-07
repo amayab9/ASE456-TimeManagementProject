@@ -60,10 +60,7 @@ class _ReportState extends State<ReportPage> {
             const SizedBox(height: Constants.spacingAndHeight),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  _command = ReportDataCommand(this);
-                  _executeCommand();
-                });
+                handleButtonPress();
               },
               child: const Text('Query Data'),
             ),
@@ -94,6 +91,13 @@ class _ReportState extends State<ReportPage> {
         ),
       ),
     );
+  }
+
+  void handleButtonPress() {
+    setState(() {
+      _command = ReportDataCommand(this);
+      _executeCommand();
+    });
   }
 
   Future<void> _reportData(String startDate, String endDate) async {

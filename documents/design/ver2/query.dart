@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:individualprojectfinal/utils/date_time_utils.dart';
 import 'package:individualprojectfinal/utils/constants.dart';
 
-const double spacingAndHeight = 16;
 
 class QueryPage extends StatefulWidget {
   const QueryPage({Key? key}) : super(key: key);
@@ -53,12 +52,7 @@ class _QueryPageState extends State<QueryPage> {
                 ),
               ],
               onChanged: (String? value) {
-                setState(() {
-                  dropdownValue = value;
-                  if (value == 'task' || value == 'tag') {
-                    queryController.clear();
-                  }
-                });
+                handleTaskAndTag(value);
               },
             ),
             Row(
@@ -108,6 +102,15 @@ class _QueryPageState extends State<QueryPage> {
         ),
       ),
     );
+  }
+
+  void handleTaskAndTag(String? value) {
+    setState(() {
+      dropdownValue = value;
+      if (value == 'task' || value == 'tag') {
+        queryController.clear();
+      }
+    });
   }
 
   Future<void> _performQuery(String query) async {
