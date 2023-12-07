@@ -1,0 +1,128 @@
+{"header" : {
+  "cloc_url"           : "github.com/AlDanial/cloc",
+  "cloc_version"       : "1.98",
+  "elapsed_seconds"    : 4.87503409385681,
+  "n_files"            : 127,
+  "n_lines"            : 9597,
+  "files_per_second"   : 26.0510998600065,
+  "lines_per_second"   : 1968.60161698017},
+"Dart" :{
+  "nFiles": 21,
+  "blank": 215,
+  "comment": 37,
+  "code": 2006},
+"XML" :{
+  "nFiles": 34,
+  "blank": 4,
+  "comment": 46,
+  "code": 1741},
+"Text" :{
+  "nFiles": 4,
+  "blank": 3,
+  "comment": 0,
+  "code": 1183},
+"PlantUML" :{
+  "nFiles": 2,
+  "blank": 1,
+  "comment": 0,
+  "code": 1160},
+"JSON" :{
+  "nFiles": 10,
+  "blank": 0,
+  "comment": 0,
+  "code": 775},
+"C++" :{
+  "nFiles": 8,
+  "blank": 115,
+  "comment": 56,
+  "code": 434},
+"CMake" :{
+  "nFiles": 7,
+  "blank": 79,
+  "comment": 107,
+  "code": 335},
+"GLSL" :{
+  "nFiles": 1,
+  "blank": 0,
+  "comment": 0,
+  "code": 160},
+"Bourne Again Shell" :{
+  "nFiles": 1,
+  "blank": 19,
+  "comment": 20,
+  "code": 121},
+"C/C++ Header" :{
+  "nFiles": 9,
+  "blank": 57,
+  "comment": 69,
+  "code": 112},
+"Gradle" :{
+  "nFiles": 3,
+  "blank": 19,
+  "comment": 5,
+  "code": 94},
+"Markdown" :{
+  "nFiles": 5,
+  "blank": 19,
+  "comment": 0,
+  "code": 91},
+"Windows Resource File" :{
+  "nFiles": 1,
+  "blank": 23,
+  "comment": 29,
+  "code": 69},
+"DOS Batch" :{
+  "nFiles": 1,
+  "blank": 24,
+  "comment": 2,
+  "code": 64},
+"Swift" :{
+  "nFiles": 6,
+  "blank": 14,
+  "comment": 7,
+  "code": 54},
+"HTML" :{
+  "nFiles": 1,
+  "blank": 8,
+  "comment": 13,
+  "code": 38},
+"YAML" :{
+  "nFiles": 2,
+  "blank": 17,
+  "comment": 24,
+  "code": 26},
+"Bourne Shell" :{
+  "nFiles": 2,
+  "blank": 0,
+  "comment": 2,
+  "code": 23},
+"Java" :{
+  "nFiles": 1,
+  "blank": 3,
+  "comment": 5,
+  "code": 21},
+"Objective-C" :{
+  "nFiles": 1,
+  "blank": 7,
+  "comment": 4,
+  "code": 17},
+"Properties" :{
+  "nFiles": 4,
+  "blank": 0,
+  "comment": 1,
+  "code": 11},
+"Kotlin" :{
+  "nFiles": 1,
+  "blank": 2,
+  "comment": 0,
+  "code": 4},
+"SVG" :{
+  "nFiles": 2,
+  "blank": 0,
+  "comment": 0,
+  "code": 2},
+"SUM": {
+  "blank": 629,
+  "comment": 427,
+  "code": 8541,
+  "nFiles": 127} }

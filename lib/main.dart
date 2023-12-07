@@ -5,7 +5,6 @@ import 'record.dart';
 import 'query.dart';
 import 'report.dart';
 import 'priority.dart';
-import 'package:code_uml/code_uml.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -47,46 +46,62 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RecordTimePage()),
-                );
+                recordRoute(context);
               },
               child: const Text('Record Time'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const QueryPage()),
-                );
+                queryRoute(context);
               },
               child: const Text('Query Time'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ReportPage()),
-                );
+                reportRoute(context);
               },
               child: const Text('Report Time'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PriorityPage()),
-                );
+                priorityRoute(context);
               },
               child: const Text('Priority'),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void recordRoute(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RecordTimePage()),
+    );
+  }
+
+  void queryRoute(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const QueryPage()),
+    );
+  }
+
+  void reportRoute(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ReportPage()),
+    );
+  }
+
+  void priorityRoute(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PriorityPage()),
     );
   }
 }

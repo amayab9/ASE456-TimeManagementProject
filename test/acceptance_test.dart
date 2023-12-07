@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:individualprojectfinal/main.dart' as app;
-
 import '../documents/design/ver2/firebase_options.dart';
 
 void main() {
-  testWidgets('Record Time Page Test', (WidgetTester tester) async {
+  testWidgets('Record acc', (WidgetTester tester) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -34,35 +32,63 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets('Query Page Test', (WidgetTester tester) async {
+  testWidgets('Query acc', (WidgetTester tester) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await tester.pumpWidget(const app.MyApp());
+
     await tester.tap(find.text('Query Time'));
     await tester.pumpAndSettle();
 
-    // Select "Date" from the dropdown
     await tester.tap(find.byType(DropdownButton).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Date').last);
     await tester.pumpAndSettle();
 
-    // Enter a date in the text field
     await tester.enterText(find.textContaining('Input'), '2023-01-01');
 
-    // Tap the "Query" button
     await tester.tap(find.text('Query'));
     await tester.pumpAndSettle();
-
-    // Verify that queried data is displayed
     expect(find.text('Queried Data:'), findsOneWidget);
 
-    // Optionally, you can add more assertions to verify the state of your app after querying.
-
-    // Example: Check if the queried data is present in Firestore
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('time_records').get();
     expect(querySnapshot.docs.length, greaterThan(0));
+  });
+
+  testWidgets('Report acc', (WidgetTester tester) async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await tester.pumpWidget(const app.MyApp());
+    await tester.tap(find.text('Report Time'));
     await tester.pumpAndSettle();
+
+    await tester.enterText(find.textContaining('Start Date (YYYY-MM-DD)'), '2023-01-01');
+    await tester.enterText(find.textContaining('End Date (YYYY-MM-DD)'), '2023-12-31');
+
+    await tester.tap(find.text('Query Data'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Queried Data:'), findsOneWidget);
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('time_records').get();
+    expect(querySnapshot.docs.length, greaterThan(0));
+  });
+
+  testWidgets('Priority acc', (WidgetTester tester) async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await tester.pumpWidget(const app.MyApp());
+
+    await tester.tap(find.text('Priority'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Generate Priority Report'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Priority Report:'), findsOneWidget);
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('time_records').get();
+    expect(querySnapshot.docs.length, greaterThan(0));
   });
 }
