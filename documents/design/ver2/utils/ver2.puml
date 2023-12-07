@@ -1,0 +1,129 @@
+@startuml
+class DefaultFirebaseOptions {
+web: FirebaseOptions
+android: FirebaseOptions
+ios: FirebaseOptions
+macos: FirebaseOptions
+---
+currentPlatform(): FirebaseOptions
+}
+DefaultFirebaseOptions ..> FirebaseOptions
+class MyApp {
+---
+build(): Widget
+}
+StatelessWidget <|-- MyApp
+class MyHomePage {
+---
+build(): Widget
+recordRoute(): void
+queryRoute(): void
+reportRoute(): void
+priorityRoute(): void
+}
+StatelessWidget <|-- MyHomePage
+class PriorityPage {
+---
+createState(): _PriorityState
+}
+StatefulWidget <|-- PriorityPage
+class _PriorityState {
+queriedData: List<Map<String, dynamic>>
+---
+build(): Widget
+returnTaskAndOccurrence(): Widget
+-_reportData(): Future<void>
+}
+State <|-- _PriorityState
+class QueryPage {
+---
+createState(): _QueryPageState
+}
+StatefulWidget <|-- QueryPage
+class _QueryPageState {
+queryController: TextEditingController
+dropdownValue: String?
+queriedData: List<String>
+selectedDate: DateTime?
+---
+build(): Widget
+handleTaskAndTag(): void
+-_performQuery(): Future<void>
+-_isValidDateFormat(): bool
+-_formatTimestamp(): String
+-_formatTime(): String
+-_queryInformation(): void
+}
+State <|-- _QueryPageState
+_QueryPageState ..> TextEditingController
+_QueryPageState ..> DateTime
+class RecordTimePage {
+---
+createState(): _RecordTimePageState
+}
+StatefulWidget <|-- RecordTimePage
+class _RecordTimePageState {
+dateController: TextEditingController
+fromTimeController: TextEditingController
+toTimeController: TextEditingController
+taskController: TextEditingController
+tagController: TextEditingController
+---
+build(): Widget
+-_saveTimeRecord(): void
+-_parseDate(): DateTime
+-_parseTime(): TimeOfDay
+}
+State <|-- _RecordTimePageState
+_RecordTimePageState ..> TextEditingController
+abstract class ReportCommand {
+---
+execute(): void
+}
+class ReportDataCommand {
+state: _ReportState
+---
+execute(): void
+}
+ReportDataCommand ..> _ReportState
+ReportDataCommand ..|> ReportCommand
+class ReportPage {
+---
+createState(): _ReportState
+}
+StatefulWidget <|-- ReportPage
+class _ReportState {
+startDateController: TextEditingController
+endDateController: TextEditingController
+queriedData: List<String>
+-_command: ReportCommand?
+---
+build(): Widget
+handleButtonPress(): void
+-_reportData(): Future<void>
+-_isValidDateFormat(): bool
+-_formatTimestamp(): String
+-_formatTime(): String
+-_executeCommand(): void
+}
+State <|-- _ReportState
+_ReportState ..> TextEditingController
+_ReportState ..> ReportCommand
+class Constants {
+timeRecords: String
+spacingAndHeight: double
+edgeInset: double
+blackColor: Color
+greenColor: Color
+redColor: Color
+---
+}
+Constants ..> Color
+class DateTimeUtils {
+---
+formatTimestamp(): String
+formatTime(): String
+-_formatDateTime(): String
+isValidDateFormat(): bool
+}
+@enduml

@@ -19,6 +19,7 @@ dependencies:
   firebase_core: ^2.23.0
   pumli: ^0.1.5
   code_uml: ^0.0.1
+  fake_cloud_firestore: ^2.4.4
 
 
 dev_dependencies:
